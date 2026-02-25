@@ -8,8 +8,8 @@ env:
   DOCKER_USERNAME: selase
   IMAGE_NAME: cryptovault
 
-jobs: 
-  docker_build: 
+jobs:
+  docker_build:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,18 +20,18 @@ jobs:
         run: docker build -t $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest .
 
       - name: Docker Login
-        run: docker login --username=$DOCKER_USERNAME --password-stdin= ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login --username=$DOCKER_USERNAME --password-stdin
 
-      - name: Docker Publish 
+      - name: Docker Publish
         run: docker push $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
 
   docker_deploy:
     needs: docker_build
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
 
     steps:
       - name: Docker Login
-        run: docker login --username=$DOCKER_USERNAME --password-stdin <<< ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login --username=$DOCKER_USERNAME --password-stdin
 
       - name: Docker Run
         run: docker run -d -p 8080:80 $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
