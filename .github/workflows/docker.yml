@@ -26,7 +26,7 @@ jobs:
         run: docker push $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
 
   docker_deploy:
-    needs: docker_build`
+    needs: docker_build
     runs-on: ubuntu-latest 
 
     steps:
