@@ -6,7 +6,7 @@ on:
 env:
   CONTAINER_REGISTRY: docker.io
   DOCKER_USERNAME: selase
-  IMAGE_NAME: CryptoVault
+  IMAGE_NAME: cryptovault
 
 jobs: 
   docker_build: 
@@ -26,7 +26,7 @@ jobs:
         run: docker push $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
 
   docker_deploy:
-    needs: docker_build
+    needs: docker_build`
     runs-on: ubuntu-latest 
 
     steps:
